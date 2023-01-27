@@ -1,0 +1,41 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model Map {
+  id        Int    @id @default(autoincrement())
+  name      String
+  url_image String
+
+  Tatic Tatic[]
+}
+
+model Tatic {
+  id          String    @id @default(uuid())
+  name        String
+  description String
+  map         Map       @relation(fields: [mapId], references: [id])
+  mapId       Int
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  deletedAt   DateTime?
+  Image       Image[]
+}
+
+model Image {
+  id        String   @id @default(uuid())
+  name      String
+  url       String
+  tatic     Tatic    @relation(fields: [taticId], references: [id])
+  taticId   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

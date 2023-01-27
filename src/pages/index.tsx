@@ -1,23 +1,17 @@
 import Head from 'next/head'
 import styles from '@/styles/Home.module.css'
 import Image from 'next/image'
+import { GetServerSideProps } from 'next'
+import { prisma } from '@/lib/prisma'
+import { Map } from '@prisma/client'
 
 
+type MapsProps = {
+  maps: Map[]
+}
 
-const maps = [
-  {
-    id: 1,
-    name: 'Ascent',
-    image: 'https://static1-br.millenium.gg/articles/9/40/79/@/84805-ascent-article_cover_bd-1.png'
-  },
-  {
-    id: 2,
-    name: 'Bind',
-    image: 'https://static1-br.millenium.gg/articles/2/73/22/@/103951-icebox-valorant-article_image_t-2.png'
-  }
-]
 
-export default function Home() {
+export default function Home({maps}:MapsProps) {
   return (
     <>
       <Head>
@@ -28,16 +22,28 @@ export default function Home() {
       </Head>
       <main className='flex flex-col h-full w-full py-12 px-5 items-center'>
         <h1 className='text-5xl font-medium'>Mapas:</h1>
-
-        <div className="maps flex gap-5">
+        <a href={`/maps/create`} className='bg-violet-500 p-2 rounded mt-4'> Cadastrar novo </a>
+        <div className="maps flex gap-5 mt-10">
           {maps.map((map) => (
-            <div key={map.id}>
-              <Image src={map.image} width={200} height={200} alt={map.name}/>
-            </div>
+            <a href={`/maps/${map.id}`} key={map.id} className="">
+              <Image src={map.url_image} className="rounded max-w-[300px] min-h-[200px] object-cover" width={300} height={0} alt={map.name}/>
+              <h2>{map.name}</h2>
+            </a>
           ))}
 
         </div>
       </main>
     </>
   )
+}
+
+
+export const getServerSideProps: GetServerSideProps = async () => {
+  const maps = await prisma.map.findMany();
+
+  return {
+    props: {
+      maps
+    }
+  }
 }
