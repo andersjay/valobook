@@ -8,10 +8,13 @@ type Map = {
 
 }
 
-export default function Maps(){
+export default async function Maps({map}){
+
+
 
   const router = useRouter();
-  const { id } = router.query;
+
+
 
   return (
     <div>
@@ -21,11 +24,13 @@ export default function Maps(){
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const response = await fetch(`http://localhost:3000/api/maps/getAll`);
+  const response = await fetch(`http://localhost:3000/api/maps/`, {
+    method: 'GET',
+  });
   const data = await response.json();
 
   const paths = data.map((map:Map)=>{
-    return { params: { id: map.id.toString() } }
+    return { params: { id: map.id } }
   })
 
   return{
@@ -34,21 +39,21 @@ export const getStaticPaths: GetStaticPaths = async () => {
   }
 }
 
-export const getStaticProps: GetStaticProps = async (context) => {
+export const getStaticProps: GetStaticProps = async (context:any) => {
   
-  const id = context.params;
+  const {id} = context.params;
+
+  console.log(id)
 
 
-
-  const response = await fetch(`http://localhost:3000/api/maps/${id}`);
-  const data = JSON.stringify(response)
+  const response = await fetch(`http://localhost:3000/api/maps/${id}/map`);
+  const data = response.json(); 
   console.log(data)
 
   return {
     props: {
-      map: data
-    },
-    revalidate: 60 * 60 * 24 // 24 hours
+
+    }
   }
 
 }

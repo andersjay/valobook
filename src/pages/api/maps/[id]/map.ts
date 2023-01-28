@@ -7,13 +7,8 @@ export default async function getMapById(req: NextApiRequest,res: NextApiRespons
 
   console.log('ID',id?.toString())
 
-  const map = await prisma.map.findUnique({
-    where:{
-      id: Number(id)
-    }
-  
-  })
+  const map = await prisma.map.findMany()
 
-  return res.status(200).json(map);
+  return res.status(200).json({map});
 
 }
