@@ -1,10 +1,10 @@
 import { Image as ImagePrismaType, Tatic as TaticPrismaType } from "@prisma/client";
-import { Swiper, SwiperSlide } from "swiper/react";
 import { GetServerSideProps, GetStaticPaths, GetStaticProps } from "next"
-import { Pagination, Navigation,Keyboard } from "swiper";
 import { prisma } from "@/lib/prisma";
 import Image from "next/image";
 import axios from "axios";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Pagination, Navigation,Keyboard } from "swiper";
 
 // Import Swiper styles
 import "swiper/css";
