@@ -3,9 +3,12 @@ import styles from '@/styles/Home.module.css'
 import Image from 'next/image'
 import { GetServerSideProps } from 'next'
 import { prisma } from '@/lib/prisma'
-import { Map } from '@prisma/client'
 
-
+type Map = {
+  id: string;
+  name: string;
+  url_image: string;
+}
 type MapsProps = {
   maps: Map[]
 }

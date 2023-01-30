@@ -31,11 +31,12 @@ model Tatic {
 }
 
 model Image {
-  id        String   @id @default(uuid())
-  name      String
-  url       String
-  tatic     Tatic    @relation(fields: [taticId], references: [id])
-  taticId   String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id          String   @id @default(uuid())
+  name        String
+  url         String
+  description String
+  tatic       Tatic    @relation(fields: [taticId], references: [id])
+  taticId     String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }

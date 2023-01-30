@@ -6,24 +6,30 @@ export default async function getMapById(req: NextApiRequest,res: NextApiRespons
  if (req.method === 'GET') {
   const { id } = req.query;
 
-  const map = await prisma.map.findUnique({
+  const tatic = await prisma.tatic.findUnique({
+    
     where:{
-      id: Number(id)
+      id: String(id)
     },
     include:{
-      Tatic:{
-       where:{
-          mapId: Number(id)
-       },
-       select:{
-        id: true,
-        name: true,
+      Image:{
+        where:{
+          taticId: String(id)
+        },
+        select:{
+          id: true,
+          url: true,
+          name: true,
+          description: true
+        }
       }
-      }
-    }
+    },
+    
+    
+
   })
 
-  return res.status(200).json(map);
+  return res.status(200).json(tatic);
  }
 
 }

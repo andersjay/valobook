@@ -72,10 +72,6 @@ export default function Create() {
 
 }
 
-
-
-
-
   return (
 
     <section className="w-full h-screen flex flex-col justify-center items-center">
@@ -87,13 +83,14 @@ export default function Create() {
           <input type="text" name="name" id="name" value={name} onChange={(e) => setName(e.target.value)} className="h-8 rounded text-zinc-800 p-2" />
         </div>
         <div className="flex flex-col">
-          <label htmlFor="url_image">Image URL</label>
+          <label htmlFor="url_image">Description</label>
+          
           <input type="text" name="url_image" id="url_image" value={urlImage} onChange={(e) => setUrlImage(e.target.value)} className="h-8 rounded text-zinc-800 p-2" />
         </div>
         <div>
           <input type="submit" value="Register" className="bg-violet-600 px-2 py-2 rounded w-full cursor-pointer" />
         </div>
-      </form>
+      </form> 
       <ToastContainer />
     </section>
   )

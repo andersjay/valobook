@@ -5,7 +5,8 @@ import { prisma } from '@/lib/prisma'
 export default async function(req: NextApiRequest,res: NextApiResponse){
   if (req.method === 'GET') {
     const maps = await prisma.map.findMany()
-    return res.status(200).json({maps});
+
+    return res.status(200).json(maps);
     
   }else if(req.method === 'POST'){
     const { name, url_image } = req.body;
@@ -18,7 +19,7 @@ export default async function(req: NextApiRequest,res: NextApiResponse){
        }
      })
    
-     return res.status(201).json({message: 'Map created', map});
+     return res.status(201).json(map);
   }
 
 }

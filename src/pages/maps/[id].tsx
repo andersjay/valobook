@@ -1,59 +1,78 @@
+import { Tatic as TaticPrisma, Map as MapPrisma } from "@prisma/client";
+import axios from "axios";
 import { GetStaticPaths, GetStaticProps } from "next";
 import { useRouter } from "next/router"
 
-type Map = {
-  id: number;
-  name: string;
-  url_image: string;
 
+type MapsProps = {
+  maps: MapPrisma & {
+    Tatic: TaticPrisma[]
+  }
 }
 
-export default async function Maps({map}){
 
 
+export default function Map({ maps }: MapsProps) {
 
   const router = useRouter();
+
+  if (router.isFallback) return <div>Loading...</div>
 
 
 
   return (
-    <div>
-      <h1>{}</h1>
+    <div className='flex flex-col h-full w-full py-12 px-5 items-center'>
+      <h1 className='text-5xl font-medium'>Taticas:</h1>
+      <div className="flex gap-2">
+        <a href={`/tatics/create`} className='bg-violet-500 p-2 rounded mt-4'> Cadastrar tática </a>
+        <a href={`/`} className='bg-violet-500 p-2 rounded mt-4'> Voltar </a>
+      </div>
+
+      <div className="maps flex gap-5 mt-10">
+        {maps.Tatic.map((tatic) => {
+          return (
+            <a href={`/tatics/${tatic.id}`} key={tatic.id} >
+              <div className="w-[200px] h-[200px] rounded-md bg-zinc-900 flex justify-center items-center">
+                <h2 className="font-bold">{tatic.name}</h2>
+              </div>
+            </a>
+          )
+        })}
+
+      </div>
     </div>
   )
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const response = await fetch(`http://localhost:3000/api/maps/`, {
-    method: 'GET',
-  });
-  const data = await response.json();
+  const response = await axios.get('http://localhost:3000/api/maps/maps')
+  const data = response.data
 
-  const paths = data.map((map:Map)=>{
-    return { params: { id: map.id } }
+  const paths = data.map((map: any) => {
+
+    return {
+      params: { id: map.id.toString() }
+    }
   })
 
-  return{
+  return {
     paths,
-    fallback: false
+    fallback: true
   }
 }
 
-export const getStaticProps: GetStaticProps = async (context:any) => {
-  
-  const {id} = context.params;
+export const getStaticProps: GetStaticProps = async (context: any) => {
+  const { id } = context.params
 
-  console.log(id)
+  const res = await axios.get(`http://localhost:3000/api/maps/${id}/map`)
+  const data = res.data
 
-
-  const response = await fetch(`http://localhost:3000/api/maps/${id}/map`);
-  const data = response.json(); 
   console.log(data)
 
   return {
     props: {
-
-    }
+      maps: data
+    },
+    revalidate: 60 * 60 * 24 // 24 hours
   }
-
 }
