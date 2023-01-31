@@ -41,7 +41,7 @@ export default function Tatic({ data }: TaticsProps) {
           <SwiperSlide key={image.id}>
             <Image src={image.url} width={1920} height={1080} alt={image.name} className="object-cover" />
 
-            <p>{image.description}</p>
+            <p>{image.name}</p>
           </SwiperSlide>
 
         ))}

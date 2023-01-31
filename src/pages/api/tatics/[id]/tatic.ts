@@ -20,7 +20,7 @@ export default async function getMapById(req: NextApiRequest,res: NextApiRespons
           id: true,
           url: true,
           name: true,
-          description: true
+          
         }
       }
     },

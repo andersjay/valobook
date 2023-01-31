@@ -32,11 +32,10 @@ model Tatic {
 
 model Image {
   id          String   @id @default(uuid())
-  name        String
   url         String
   description String
-  tatic       Tatic    @relation(fields: [taticId], references: [id])
   taticId     String
+  tatic       Tatic    @relation(fields: [taticId], references: [id])
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }

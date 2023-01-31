@@ -11,11 +11,27 @@ export default async function(req: NextApiRequest,res: NextApiResponse){
   }
 
   if (req.method === 'POST') {
+
+    const { name, description, mapId } = req.body;
+    const mapIdParsed = parseInt(mapId);
+
+    console.log(mapIdParsed)
+
     const tatic = await prisma.tatic.create({
-      data: req.body
+      data: {
+        name: req.body.name,
+        description: req.body.description,
+        map:{
+          connect:{
+            id: mapIdParsed
+          }
+        },
+      },
+
+
     })
 
-    return res.status(201).json(tatic);
+    return res.status(201).json(tatic.id);
   }
 
 }

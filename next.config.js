@@ -5,6 +5,12 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
+        hostname: 'media.valorant-api.com',
+        port: '',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
         hostname: 'static1-br.millenium.gg',
         port: '',
         pathname: '/**',

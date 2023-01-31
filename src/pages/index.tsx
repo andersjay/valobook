@@ -14,7 +14,7 @@ type MapsProps = {
 }
 
 
-export default function Home({maps}:MapsProps) {
+export default function Home({ maps }: MapsProps) {
   return (
     <>
       <Head>
@@ -24,12 +24,15 @@ export default function Home({maps}:MapsProps) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className='flex flex-col h-full w-full py-12 px-5 items-center'>
-        <h1 className='text-5xl font-medium'>Mapas:</h1>
-        <a href={`/maps/create`} className='bg-violet-500 p-2 rounded mt-4'> Cadastrar novo </a>
+        <h1 className='text-5xl font-medium'>Valobook:</h1>
+        <div className='flex gap-4'>
+          <a href={`/maps/create`} className='bg-violet-500 p-2 rounded mt-4'> Cadastrar mapa </a>
+          <a href={`/tatics/create`} className='bg-violet-500 p-2 rounded mt-4'> Cadastrar tática </a>
+        </div>
         <div className="maps flex gap-5 mt-10">
           {maps.map((map) => (
             <a href={`/maps/${map.id}`} key={map.id} className="">
-              <Image src={map.url_image} className="rounded max-w-[300px] min-h-[200px] object-cover" width={300} height={0} alt={map.name}/>
+              <Image src={map.url_image} className="rounded max-w-[300px] min-h-[200px] object-cover" width={300} height={0} alt={map.name} />
               <h2>{map.name}</h2>
             </a>
           ))}
