@@ -4,13 +4,14 @@ import { prisma } from "@/lib/prisma";
 import Image from "next/image";
 import axios from "axios";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Pagination, Navigation,Keyboard } from "swiper";
+import { Pagination, Navigation, Keyboard } from "swiper";
+import ReactFlow from 'reactflow';
+import 'reactflow/dist/style.css'
 
 // Import Swiper styles
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
-
 
 type TaticsProps = {
   data: TaticPrismaType & {
@@ -21,31 +22,39 @@ type TaticsProps = {
 
 export default function Tatic({ data }: TaticsProps) {
 
-  console.log(data)
-
   return (
-    <div className='flex flex-col h-full py-12 px-5 overflow-hidden'>
-      <h1 className='text-5xl font-medium'>{data.name}</h1>
+    <div className='flex flex-col pt-12 px-5 items-center overflow-hidden w-screen h-screen'>
+      <div className="flex gap-4 items-center">
+        <h1 className='text-5xl font-medium'>{data.name}</h1>
+        <a href={`/`} className='bg-violet-500 p-2 rounded'> Back </a>
+      </div>
 
       <Swiper
         pagination={{
           type: "progressbar",
+          progressbarOppositeClass: "swiper-pagination-progressbar-opposite",
         }}
         keyboard={true}
-        
+
         navigation={true}
         modules={[Pagination, Navigation, Keyboard]}
-        className="mySwiper w-[800px] rounded-lg "
+        className="mySwiper w-1/2 rounded-lg mt-4  "
       >
-        {data.Image.map((image) => (
+        {data.Image.map((image, index) => (
           <SwiperSlide key={image.id}>
-            <Image src={image.url} width={1920} height={1080} alt={image.name} className="object-cover" />
+            <Image src={image.url} width={1920} height={1080} alt={image.description} className="object-cover" />
 
-            <p>{image.name}</p>
+            <h2 className="mt-4 mb-4">Step {index + 1 } - {image.description}</h2>
           </SwiperSlide>
 
         ))}
       </Swiper>
+
+      <div className="border border-violet-500 rounded-lg w-1/2 py-5 px-3">
+        <h2 className="font-bold text-center">Description</h2>
+
+        <p className="mt-4">{data.description}</p>
+      </div>
     </div>
   )
 }
@@ -73,8 +82,6 @@ export const getStaticProps: GetStaticProps = async (context: any) => {
 
   const res = await axios.get(`http://localhost:3000/api/tatics/${id}/tatic`)
   const data = res.data
-
-  console.log(data)
 
   return {
     props: {

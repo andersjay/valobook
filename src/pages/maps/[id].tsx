@@ -23,7 +23,7 @@ export default function Map({ maps }: MapsProps) {
     <div className='flex flex-col h-full w-full py-12 px-5 items-center'>
       <h1 className='text-5xl font-medium'>{maps.name}</h1>
       <div className="flex gap-2">
-        <a href={`/`} className='bg-violet-500 p-2 rounded mt-4'> Voltar </a>
+        <a href={`/`} className='bg-violet-500 p-2 rounded mt-4'> Back </a>
       </div>
 
       <div className="maps flex gap-5 mt-10">

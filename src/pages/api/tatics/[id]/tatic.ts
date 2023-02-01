@@ -19,7 +19,9 @@ export default async function getMapById(req: NextApiRequest,res: NextApiRespons
         select:{
           id: true,
           url: true,
-          name: true,
+          description: true,
+          updatedAt: true,
+          
           
         }
       }

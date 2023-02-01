@@ -10,21 +10,17 @@ export default async function(req: NextApiRequest,res: NextApiResponse){
 
 
 
-    const { description, url, taticId, name } = req.body;
+    const { description, url, taticId } = req.body;
   
 
     const image =  await prisma.image.create({
        data:{
          url,
          description,
-          tatic:{
-            connect:{
-              id: taticId
-            }
-          },
+         taticId,
           createdAt: new Date(),
           updatedAt: new Date(),
-          name
+
         
 
        }

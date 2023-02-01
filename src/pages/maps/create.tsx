@@ -130,7 +130,10 @@ export default function Create({ mapsValorant }: MapsValorant) {
         <div>
           <input type="submit" value="Register" className="bg-violet-600 px-2 py-2 rounded w-full cursor-pointer" />
         </div>
+          <a href={'/'} className="bg-violet-600 px-2 py-2 rounded w-full cursor-pointer text-center ">Back</a>
       </form>
+  
+       
       <ToastContainer />
     </section>
   )

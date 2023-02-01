@@ -26,8 +26,8 @@ export default function Home({ maps }: MapsProps) {
       <main className='flex flex-col h-full w-full py-12 px-5 items-center'>
         <h1 className='text-5xl font-medium'>Valobook:</h1>
         <div className='flex gap-4'>
-          <a href={`/maps/create`} className='bg-violet-500 p-2 rounded mt-4'> Cadastrar mapa </a>
-          <a href={`/tatics/create`} className='bg-violet-500 p-2 rounded mt-4'> Cadastrar tática </a>
+          <a href={`/maps/create`} className='bg-violet-500 p-2 rounded mt-4'> Register a map </a>
+          <a href={`/tatics/create`} className='bg-violet-500 p-2 rounded mt-4'> Register a tatic </a>
         </div>
         <div className="maps flex gap-5 mt-10">
           {maps.map((map) => (

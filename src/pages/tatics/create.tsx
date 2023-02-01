@@ -7,6 +7,7 @@ import axios from "axios";
 import { Map } from "@prisma/client";
 import { Plus, Trash } from "phosphor-react";
 import { v4 as uuidv4 } from "uuid";
+import Router from "next/router";
 
 
 
@@ -43,9 +44,9 @@ export default function Create({ maps }: Maps) {
     ]);
   };
 
-  const handleChangeImage = (event: FormEvent<HTMLInputElement>, type: string, index:number) => {
-    
-    if(type === 'urlImage'){
+  const handleChangeImage = (event: FormEvent<HTMLInputElement>, type: string, index: number) => {
+
+    if (type === 'urlImage') {
       setImages(
         images.map((image) =>
           image.id === images[index].id
@@ -53,7 +54,7 @@ export default function Create({ maps }: Maps) {
             : image
         )
       );
-    }else if(type === 'descriptionImage'){
+    } else if (type === 'descriptionImage') {
       setImages(
         images.map((image) =>
           image.id === images[index].id
@@ -64,25 +65,22 @@ export default function Create({ maps }: Maps) {
     }
   }
 
-  const handleInsertImage = async (index:number) => {
+  const handleInsertImage = async (index: number, taticId: number) => {
     const response = await axios.post("http://localhost:3000/api/images/images", {
       url: images[index].urlImage,
       description: images[index].descriptionImage,
       taticId: taticId,
-
     });
 
     const imageId = response.data;
 
     return imageId;
-    
   };
 
-  const handleSaveImage = async () => {
-    images.forEach(async (image,index) => {
-      await handleInsertImage(index)
-    })
-
+  const handleSaveImage = async (taticId: number) => {
+    images.forEach(async (image, index) => {
+      await handleInsertImage(index, taticId);
+    });
   };
 
   const handleRemoveImage = (id: number) => {
@@ -94,37 +92,44 @@ export default function Create({ maps }: Maps) {
     setSelectedOption(event.currentTarget.value);
   };
 
-  const handleInsertTatic = async () => {
+  const handleInsertTatic = () => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const response = await axios.post("http://localhost:3000/api/tatics/tatics", {
+          name,
+          description,
+          mapId: selectedOption,
+        });
 
-    const response = await axios.post("http://localhost:3000/api/tatics/tatics", {
-      name,
-      description,
-      mapId: selectedOption,
-    });
+        const taticId = response.data;
+        setTaticId(taticId);
 
-    const taticId = response.data;
+        if (taticId) {
+          await handleSaveImage(taticId);
+          resolve(taticId);
 
-    setTaticId(taticId);
-   
-    if(taticId){
-      toast.success("Tatic created successfully!");
+        } else {
+          reject(false);
+        }
 
-      for (let index = 0; index < images.length; index++) {
-        await handleInsertImage(index)
+
+      } catch (error) {
+        reject(error);
       }
-    }else{
-      toast.error("Error creating tatic!");
-    }
+    });
+  };
 
-  }
 
   const handleSaveTatic = async (event: FormEvent) => {
     event.preventDefault();
-    handleInsertTatic()
-
+    const taticSaved = await handleInsertTatic();
+    if (taticSaved) {
+      toast.success("Tatic created!");
+      Router.push(`/tatics/${taticSaved}`);
+    } else {
+      toast.error("Error creating tatic!");
+    }
   };
-
-  console.log(images, )
 
   return (
     <section className="w-full h-screen flex flex-col justify-center items-center">
@@ -186,6 +191,7 @@ export default function Create({ maps }: Maps) {
             </button>
           </h3>
 
+          <input type="hidden" name="taticId" id="taticId" value={taticId} />
           {images?.map((image, index) => (
             <div
               className="w-100 border-t-2 pt-4 pb-4 border-purple-500"
@@ -193,7 +199,6 @@ export default function Create({ maps }: Maps) {
             >
               <label htmlFor="image">Step {index + 1}</label>
 
-              <input type="hidden" name="" id="" />
 
               <div className="flex">
                 <input
@@ -204,7 +209,7 @@ export default function Create({ maps }: Maps) {
                   onChange={(e) =>
                     handleChangeImage(e, "descriptionImage", index)
 
-                  
+
                   }
                 />
 
@@ -239,6 +244,7 @@ export default function Create({ maps }: Maps) {
             className="bg-violet-600 px-2 py-2 rounded w-full cursor-pointer"
           />
         </div>
+        <a href={'/'} className="bg-violet-600 px-2 py-2 rounded w-full cursor-pointer text-center ">Back</a>
       </form>
       <ToastContainer />
     </section>

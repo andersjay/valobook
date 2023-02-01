@@ -14,9 +14,6 @@ export default async function(req: NextApiRequest,res: NextApiResponse){
 
     const { name, description, mapId } = req.body;
     const mapIdParsed = parseInt(mapId);
-
-    console.log(mapIdParsed)
-
     const tatic = await prisma.tatic.create({
       data: {
         name: req.body.name,
