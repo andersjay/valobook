@@ -21,13 +21,13 @@ export default function Map({ maps }: MapsProps) {
 
   return (
     <div className='flex flex-col h-full w-full py-12 px-5 items-center'>
-      <h1 className='text-5xl font-medium'>{maps.name}</h1>
+      <h1 className='text-5xl font-medium'>{maps?.name}</h1>
       <div className="flex gap-2">
         <a href={`/`} className='bg-violet-500 p-2 rounded mt-4'> Back </a>
       </div>
 
       <div className="maps flex gap-5 mt-10">
-        {maps.Tatic.map((tatic) => {
+        {maps?.Tatic.map((tatic) => {
           return (
             <a href={`/tatics/${tatic.id}`} key={tatic.id} >
               <div className="w-[200px] h-[200px] rounded-md bg-zinc-900 flex justify-center items-center">

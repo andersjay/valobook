@@ -25,7 +25,7 @@ export default function Tatic({ data }: TaticsProps) {
   return (
     <div className='flex flex-col pt-12 px-5 items-center overflow-hidden w-screen h-screen'>
       <div className="flex gap-4 items-center">
-        <h1 className='text-5xl font-medium'>{data.name}</h1>
+        <h1 className='text-5xl font-medium'>{data?.name}</h1>
         <a href={`/`} className='bg-violet-500 p-2 rounded'> Back </a>
       </div>
 
@@ -40,7 +40,7 @@ export default function Tatic({ data }: TaticsProps) {
         modules={[Pagination, Navigation, Keyboard]}
         className="mySwiper w-1/2 rounded-lg mt-4  "
       >
-        {data.Image.map((image, index) => (
+        {data?.Image.map((image, index) => (
           <SwiperSlide key={image.id}>
             <Image src={image.url} width={1920} height={1080} alt={image.description} className="object-cover" />
 
@@ -53,7 +53,7 @@ export default function Tatic({ data }: TaticsProps) {
       <div className="border border-violet-500 rounded-lg w-1/2 py-5 px-3">
         <h2 className="font-bold text-center">Description</h2>
 
-        <p className="mt-4">{data.description}</p>
+        <p className="mt-4">{data?.description}</p>
       </div>
     </div>
   )
