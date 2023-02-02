@@ -46,8 +46,8 @@ export const getStaticPaths: GetStaticPaths = async () => {
   // const response = await axios.get('http://localhost:3000/api/maps/maps')
   // const data = response.data
 
-  const response = await fetch('http://localhost:3000/api/maps/maps')
-  const data = await response.json()
+  const response = await axios.get('http://localhost:3000/api/maps/maps')
+  const data = response.data
 
   const paths = data.map((map: any) => {
 
