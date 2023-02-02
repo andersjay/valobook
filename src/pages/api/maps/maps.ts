@@ -3,12 +3,12 @@ import { prisma } from '@/lib/prisma'
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default async function(req: NextApiRequest,res: NextApiResponse){
-  if (req.method === 'GET') {
+  if (req.method == 'GET') {
     const maps = await prisma.map.findMany()
 
     return res.status(200).json(maps);
     
-  }else if(req.method === 'POST'){
+  }else if(req.method == 'POST'){
     const { name, url_image } = req.body;
   
 

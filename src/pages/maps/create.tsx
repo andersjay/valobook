@@ -7,7 +7,7 @@ import axios from "axios";
 import { apiValorant } from "@/lib/valorant";
 import { Map } from "@prisma/client";
 import Image from "next/image";
-import { GetServerSideProps, GetStaticProps } from "next";
+import { GetStaticProps } from "next";
 
 
 type MapValorant = {
@@ -141,7 +141,7 @@ export default function Create({ mapsValorant }: MapsValorant) {
 
 export const getStaticProps: GetStaticProps = async () => {
 
-  const valoMaps = await apiValorant('/maps')
+  const valoMaps = await axios.get('https://valorant-api.com/v1/maps')
 
   const mapsValorant = valoMaps.data.data
 

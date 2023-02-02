@@ -8,6 +8,7 @@ import { Map } from "@prisma/client";
 import { Plus, Trash } from "phosphor-react";
 import { v4 as uuidv4 } from "uuid";
 import Router from "next/router";
+import { prisma } from "@/lib/prisma";
 
 
 
@@ -252,8 +253,7 @@ export default function Create({ maps }: Maps) {
 }
 
 export const getServerSideProps: GetServerSideProps = async () => {
-  const response = await axios.get("http://localhost:3000/api/maps/maps");
-  const maps = response.data;
+  const maps = await prisma.map.findMany()
 
   return {
     props: {

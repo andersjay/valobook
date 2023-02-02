@@ -1,5 +1,5 @@
 import { Image as ImagePrismaType, Tatic as TaticPrismaType } from "@prisma/client";
-import { GetServerSideProps, GetStaticPaths, GetStaticProps } from "next"
+import { GetStaticPaths, GetStaticProps } from "next"
 import { prisma } from "@/lib/prisma";
 import Image from "next/image";
 import axios from "axios";
@@ -63,7 +63,7 @@ export default function Tatic({ data }: TaticsProps) {
 export const getStaticPaths: GetStaticPaths = async () => {
   const response = await axios.get('http://localhost:3000/api/tatics/tatics')
   const data = response.data
-
+  
   const paths = data.map((map: any) => {
 
     return {
@@ -73,7 +73,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
   return {
     paths,
-    fallback: true
+    fallback: false
   }
 }
 
