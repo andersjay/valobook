@@ -29,7 +29,7 @@ export default function Home({ maps }: MapsProps) {
           <a href={`/maps/create`} className='bg-violet-500 p-2 rounded mt-4'> Register a map </a>
           <a href={`/tatics/create`} className='bg-violet-500 p-2 rounded mt-4'> Register a tatic </a>
         </div>
-        <div className="maps flex gap-5 mt-10">
+        <div className="maps flex gap-5 mt-10 flex-wrap justify-center">
           {maps.map((map) => (
             <a href={`/maps/${map.id}`} key={map.id} className="">
               <Image src={map.url_image} className="rounded max-w-[300px] min-h-[200px] object-cover" width={300} height={0} alt={map.name} />

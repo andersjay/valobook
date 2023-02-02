@@ -29,9 +29,15 @@ export default function Create({ mapsValorant }: MapsValorant) {
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
 
-    const create = await axios.post('http://localhost:3000/api/maps/maps', {
-      name,
-      url_image:urlImage
+    const create = await fetch('http://localhost:3000/api/maps/maps', {
+      method: 'POST',
+      body: JSON.stringify({
+        name,
+        url_image: urlImage
+      }),
+      headers: {
+        'Content-Type': 'application/json'
+      }
     })
 
     setName('');
