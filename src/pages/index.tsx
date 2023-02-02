@@ -1,7 +1,7 @@
 import Head from 'next/head'
 import styles from '@/styles/Home.module.css'
 import Image from 'next/image'
-import { GetServerSideProps } from 'next'
+import { GetServerSideProps} from 'next'
 import { prisma } from '@/lib/prisma'
 
 type Map = {

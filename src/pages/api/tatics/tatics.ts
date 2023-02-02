@@ -1,12 +1,13 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { prisma } from '@/lib/prisma'
-import { cors } from '@/utils/cors';
-
+import cors from 'cors';
+const express = require('express');
+const app = express();
+app.use(cors());
 // eslint-disable-next-line import/no-anonymous-default-export
 export default async function(req: NextApiRequest,res: NextApiResponse){
   
-  cors(req, res);
-
+  
   if (req.method === 'GET') {
     const tatics = await prisma.tatic.findMany()
 
