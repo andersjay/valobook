@@ -40,7 +40,7 @@ export default function Tatic({ data }: TaticsProps) {
         modules={[Pagination, Navigation, Keyboard]}
         className="mySwiper w-1/2 rounded-lg mt-4  "
       >
-        {data?.Image.map((image, index) => (
+        {data?.Image?.map((image, index) => (
           <SwiperSlide key={image.id}>
             <Image src={image.url} width={1920} height={1080} alt={image.description} className="object-cover" />
 
@@ -61,31 +61,39 @@ export default function Tatic({ data }: TaticsProps) {
 
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const response = await axios.get('http://localhost:3000/api/tatics/tatics')
-  const data = response.data
   
-  const paths = data.map((map: any) => {
+  const tatics = await prisma.tatic.findMany();
+
+  const paths = tatics.map((tatic: any) => {
 
     return {
-      params: { id: map.id.toString() }
+      params: { id: tatic.id.toString() }
     }
   })
 
   return {
     paths,
-    fallback: false
+    fallback: true
   }
 }
 
 export const getStaticProps: GetStaticProps = async (context: any) => {
   const { id } = context.params
 
-  const res = await axios.get(`http://localhost:3000/api/tatics/${id}/tatic`)
-  const data = res.data
+  const tatic = await prisma.tatic.findUnique({
+    where: {
+      id,
+    },
+  })
+
 
   return {
     props: {
-      data
+      data:{
+        ...tatic,
+        createdAt: tatic?.createdAt.toISOString(),
+        updatedAt: tatic?.updatedAt.toISOString(),
+      }
     },
     revalidate: 60 * 60 * 24 // 24 hours
   }

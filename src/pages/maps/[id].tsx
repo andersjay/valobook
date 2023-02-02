@@ -1,3 +1,4 @@
+import { prisma } from "@/lib/prisma";
 import { Tatic as TaticPrisma, Map as MapPrisma } from "@prisma/client";
 import axios from "axios";
 import { GetStaticPaths, GetStaticProps } from "next";
@@ -43,13 +44,12 @@ export default function Map({ maps }: MapsProps) {
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  // const response = await axios.get('http://localhost:3000/api/maps/maps')
-  // const data = response.data
 
-  const response = await axios.get('http://localhost:3000/api/maps/maps')
-  const data = response.data
+  const maps = await prisma.map.findMany();
 
-  const paths = data.map((map: any) => {
+
+
+  const paths = maps.map((map: any) => {
 
     return {
       params: { id: map.id.toString() }
@@ -58,21 +58,23 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
   return {
     paths,
-    fallback: false
+    fallback: true
   }
 }
 
 export const getStaticProps: GetStaticProps = async (context: any) => {
+
   const { id } = context.params
 
-  const res = await axios.get(`http://localhost:3000/api/maps/${id}/map`)
-  const data = res.data
-
-  console.log(data)
+  const maps = await prisma.map.findUnique({
+    where: {
+      id: Number(id),
+    },
+  })
 
   return {
     props: {
-      maps: data
+      data: maps
     },
     revalidate: 60 * 60 * 24 // 24 hours
   }
