@@ -3,6 +3,7 @@ import styles from '@/styles/Home.module.css'
 import Image from 'next/image'
 import { GetServerSideProps} from 'next'
 import { prisma } from '@/lib/prisma'
+import { getAllMaps } from '@/repositories/mapsRepositories'
 
 type Map = {
   id: string;
@@ -45,7 +46,7 @@ export default function Home({ maps }: MapsProps) {
 
 
 export const getServerSideProps: GetServerSideProps = async () => {
-  const maps = await prisma.map.findMany();
+  const maps = await getAllMaps();
 
   return {
     props: {

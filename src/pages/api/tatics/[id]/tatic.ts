@@ -1,5 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { prisma } from '@/lib/prisma'
+import { getTaticById } from '@/repositories/taticsRepositories';
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default async function getMapById(req: NextApiRequest,res: NextApiResponse){
@@ -8,31 +9,8 @@ export default async function getMapById(req: NextApiRequest,res: NextApiRespons
  if (req.method === 'GET') {
   const { id } = req.query;
 
-  const tatic = await prisma.tatic.findUnique({
-    
-    where:{
-      id: String(id)
-    },
-    include:{
-      Image:{
-        where:{
-          taticId: String(id)
-        },
-        select:{
-          id: true,
-          url: true,
-          description: true,
-          updatedAt: true,
-          
-          
-        }
-      }
-    },
-    
-    
-
-  })
-
+  const tatic = await getTaticById(String(id))
+  
   return res.status(200).json(tatic);
  }
 

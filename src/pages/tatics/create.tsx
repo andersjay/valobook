@@ -9,6 +9,7 @@ import { Plus, Trash } from "phosphor-react";
 import { v4 as uuidv4 } from "uuid";
 import Router from "next/router";
 import { prisma } from "@/lib/prisma";
+import { getAllMaps } from "@/repositories/mapsRepositories";
 
 
 
@@ -96,7 +97,8 @@ export default function Create({ maps }: Maps) {
   const handleInsertTatic = () => {
     return new Promise(async (resolve, reject) => {
       try {
-        const response = await axios.post("http://localhost:3000/api/tatics/tatics", {
+        
+        const response = await axios.post("http://localhost:3000/api/tatics/create", {
           name,
           description,
           mapId: selectedOption,
@@ -253,7 +255,7 @@ export default function Create({ maps }: Maps) {
 }
 
 export const getServerSideProps: GetServerSideProps = async () => {
-  const maps = await prisma.map.findMany()
+  const maps = await getAllMaps();
 
   return {
     props: {

@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/prisma";
+import { getAllMaps, getMapById } from "@/repositories/mapsRepositories";
 import { Tatic as TaticPrisma, Map as MapPrisma } from "@prisma/client";
 import axios from "axios";
 import { GetStaticPaths, GetStaticProps } from "next";
@@ -42,7 +43,7 @@ export default function Map({ maps }: MapsProps) {
 
 export const getStaticPaths: GetStaticPaths = async () => {
 
-  const maps = await prisma.map.findMany();
+  const maps = await getAllMaps()
 
   const paths = maps.map((map: any) => {
 
@@ -61,11 +62,7 @@ export const getStaticProps: GetStaticProps = async (context: any) => {
 
   const { id } = context.params
 
-  const maps = await prisma.map.findUnique({
-    where: {
-      id: Number(id),
-    },
-  })
+  const maps = await getMapById(Number(id))
 
   return {
     props: {

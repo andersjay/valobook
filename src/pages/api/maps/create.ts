@@ -1,15 +1,14 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { prisma } from '@/lib/prisma'
-import { getMapById } from '@/repositories/mapsRepositories';
+import { createMap } from '@/repositories/mapsRepositories';
+
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default async function handler(req: NextApiRequest,res: NextApiResponse){
 
-  const { id } = req.query;
+    const { name, url_image } = req.body;
 
-  const map = await getMapById(Number(id))
+    const map = await createMap(name, url_image)
 
-  return res.status(200).json(map);
- 
-
+    return res.status(201).json(map);
 }

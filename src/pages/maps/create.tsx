@@ -1,15 +1,14 @@
 import { redirect } from "next/dist/server/api-utils";
-import { useState, FormEvent } from "react";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import Router from "next/router";
-import axios from "axios";
-import { apiValorant } from "@/lib/valorant";
-import { Map } from "@prisma/client";
+import { useState, FormEvent, useEffect } from "react";
+import Router from "next/router"
 import Image from "next/image";
 import { GetStaticProps } from "next";
-import { api } from "@/utils/api";
+import { ToastContainer, toast } from 'react-toastify';
+import { apiValorant } from "@/lib/valorant";
+import { api } from "@/lib/api";
 
+import 'react-toastify/dist/ReactToastify.css';
+import axios from "axios";
 
 type MapValorant = {
   displayName: string;
@@ -24,23 +23,24 @@ type MapsValorant = {
 export default function Create({ mapsValorant }: MapsValorant) {
   const [name, setName] = useState('');
   const [urlImage, setUrlImage] = useState('');
-  const [mapsValoratList, setMapsValorantList] = useState(mapsValorant as MapValorant[]);
+  const [mapsValoratList, setMapsValorantList] = useState<MapValorant[]>([]);
   const [containImage, setContainImage] = useState(false);
+
+  useEffect(() => {
+    setMapsValorantList(mapsValorant)
+  },[mapsValorant])
 
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
 
-    const create = await api.post('maps/maps', {
+    const create = await api.post('maps/create', {
         name,
         url_image: urlImage
-      })
-     
-
-
+    })
     setName('');
     setUrlImage('');
 
-    if (create.status == 400) {
+    if (create.status !== 201) {
       toast.error('Erro ao adicionar!', {
         position: "top-right",
         autoClose: 5000,
@@ -70,6 +70,7 @@ export default function Create({ mapsValorant }: MapsValorant) {
 
   }
 
+
   const chooseMap = () => {
     const map = document.getElementById('maps') as HTMLSelectElement;
     const mapValue = map.value;
@@ -85,6 +86,7 @@ export default function Create({ mapsValorant }: MapsValorant) {
       setUrlImage(mapSelected.splash);
       setName(mapSelected.displayName);
       setContainImage(true)
+  
     }
 
    
@@ -138,9 +140,10 @@ export default function Create({ mapsValorant }: MapsValorant) {
 
 export const getStaticProps: GetStaticProps = async () => {
 
-  const valoMaps = await axios.get('https://valorant-api.com/v1/maps')
+  const valoMaps = await axios.get('https://valorant-api.com/v1/maps');
 
-  const mapsValorant = valoMaps.data.data
+  console.log(valoMaps.data.data)
+  const mapsValorant = valoMaps.data.data;
 
   return {
     props: {
