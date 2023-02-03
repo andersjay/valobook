@@ -8,6 +8,7 @@ import { apiValorant } from "@/lib/valorant";
 import { Map } from "@prisma/client";
 import Image from "next/image";
 import { GetStaticProps } from "next";
+import { api } from "@/utils/api";
 
 
 type MapValorant = {
@@ -29,16 +30,12 @@ export default function Create({ mapsValorant }: MapsValorant) {
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
 
-    const create = await fetch('http://localhost:3000/api/maps/maps', {
-      method: 'POST',
-      body: JSON.stringify({
+    const create = await api.post('maps/maps', {
         name,
         url_image: urlImage
-      }),
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    })
+      })
+     
+
 
     setName('');
     setUrlImage('');

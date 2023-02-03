@@ -11,14 +11,11 @@ type MapsProps = {
   }
 }
 
-
-
 export default function Map({ maps }: MapsProps) {
 
   const router = useRouter();
 
   if (router.isFallback) return <div>Loading...</div>
-
 
   return (
     <div className='flex flex-col h-full w-full py-12 px-5 items-center'>
@@ -46,8 +43,6 @@ export default function Map({ maps }: MapsProps) {
 export const getStaticPaths: GetStaticPaths = async () => {
 
   const maps = await prisma.map.findMany();
-
-
 
   const paths = maps.map((map: any) => {
 

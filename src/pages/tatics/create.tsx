@@ -67,7 +67,7 @@ export default function Create({ maps }: Maps) {
   }
 
   const handleInsertImage = async (index: number, taticId: number) => {
-    const response = await axios.post("http://localhost:3000/api/images/images", {
+    const response = await axios.post("images/images", {
       url: images[index].urlImage,
       description: images[index].descriptionImage,
       taticId: taticId,
