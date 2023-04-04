@@ -1,6 +1,5 @@
 import { prisma } from "@/lib/prisma";
 import { getAllMaps, getMapById } from "@/repositories/mapsRepositories";
-import { Tatic as TaticPrisma, Map as MapPrisma } from "@prisma/client";
 import axios from "axios";
 import { GetStaticPaths, GetStaticProps } from "next";
 import { useRouter } from "next/router"
@@ -11,15 +10,24 @@ type MapsProps = {
   id: string;
   name: string;
   url_image: string;
-  Tatic: TaticPrisma[];
+  Tatic: Tatic[]
  }
+}
+
+type Tatic = {
+  id: string
+  name: string
+  description: string
+  mapId: number
+  side: string
+  createdAt: Date
+  updatedAt: Date
+  deletedAt: Date | null
 }
 
 export default function Map({ data }: MapsProps) {
 
   const router = useRouter();
-
-  console.log(data.Tatic)
 
   if (router.isFallback) return <div>Loading...</div>
 
@@ -31,7 +39,7 @@ export default function Map({ data }: MapsProps) {
       </div>
 
       <div className="maps flex gap-5 mt-10">
-        {data?.Tatic?.map((tatic) => {
+        {data.Tatic.map((tatic) => {
           return (
             <a href={`/tatics/${tatic.id}`} key={tatic.id}  >
               <div className={classNames(`w-[200px] h-[200px] rounded-md bg-zinc-900 flex justify-center items-center border-2 ${tatic.side == 'atk' ? 'border-red-500' : 'border-blue-500' }`)}>
