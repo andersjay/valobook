@@ -31,7 +31,7 @@ export default function Map({ data }: MapsProps) {
       </div>
 
       <div className="maps flex gap-5 mt-10">
-        {data.Tatic?.map((tatic) => {
+        {data?.Tatic?.map((tatic) => {
           return (
             <a href={`/tatics/${tatic.id}`} key={tatic.id}  >
               <div className={classNames(`w-[200px] h-[200px] rounded-md bg-zinc-900 flex justify-center items-center border-2 ${tatic.side == 'atk' ? 'border-red-500' : 'border-blue-500' }`)}>

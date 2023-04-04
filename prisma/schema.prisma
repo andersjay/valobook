@@ -24,6 +24,7 @@ model Tatic {
   description String
   map         Map       @relation(fields: [mapId], references: [id])
   mapId       Int
+  side        String
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
   deletedAt   DateTime?
