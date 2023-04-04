@@ -5,8 +5,6 @@ import { GetServerSideProps} from 'next'
 import { prisma } from '@/lib/prisma'
 import { getAllMaps } from '@/repositories/mapsRepositories'
 
-import Button from '@/components/Dialog'
-
 type Map = {
   id: string;
   name: string;
