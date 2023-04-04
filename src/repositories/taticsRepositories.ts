@@ -39,11 +39,12 @@ export const getTaticById = async (id:string) =>{
   return tatic;
 }
 
-export const createTatic = async(name:string, description:string, mapId:number, req?:NextApiRequest) =>{
+export const createTatic = async(name:string, description:string, mapId:number, side:string) =>{
   const tatic = await prisma.tatic.create({
     data:{
-      name: req?.body.name,
-      description: req?.body.description,
+      name: name,
+      description: description,
+      side: side,
       map:{
         connect:{
           id: mapId

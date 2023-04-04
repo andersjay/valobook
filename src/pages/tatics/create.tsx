@@ -29,6 +29,7 @@ export default function Create({ maps }: Maps) {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [mapsList, setMapsList] = useState<Map[]>(maps);
+  const [side, setSide] = useState("");
   const [selectedOption, setSelectedOption] = useState("null");
   const [taticId, setTaticId] = useState(0);
 
@@ -101,6 +102,7 @@ export default function Create({ maps }: Maps) {
         const response = await axios.post("http://localhost:3000/api/tatics/create", {
           name,
           description,
+          side,
           mapId: selectedOption,
         });
 
@@ -183,6 +185,19 @@ export default function Create({ maps }: Maps) {
         </div>
 
         <div className="flex flex-col">
+          <label htmlFor="side">Side</label>
+          <select
+             id="side" 
+             name="side"
+             value={side} 
+             onChange={(e) => setSide(e.target.value)}
+             className="rounded p-1 text-zinc-800">
+              <option value="atk">Ataque</option>
+              <option value="def">Defesa</option>
+             </select>
+        </div>
+
+        <div className="flex flex-col">
           <h3 className="text-xl flex items-center justify-between mb-2">
             Images:
             <button
@@ -211,8 +226,6 @@ export default function Create({ maps }: Maps) {
                   value={image.descriptionImage}
                   onChange={(e) =>
                     handleChangeImage(e, "descriptionImage", index)
-
-
                   }
                 />
 

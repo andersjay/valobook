@@ -17,6 +17,16 @@ export const getMapById = async (id:number) =>{
   const map = await prisma.map.findUnique({
     where:{
       id
+    },
+    include:{
+      Tatic:{
+        select:{
+          id: true,
+          name: true,
+          description: true,
+          side: true,
+        }
+      }
     }
   });
 

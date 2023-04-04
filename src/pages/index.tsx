@@ -5,6 +5,8 @@ import { GetServerSideProps} from 'next'
 import { prisma } from '@/lib/prisma'
 import { getAllMaps } from '@/repositories/mapsRepositories'
 
+import Button from '@/components/Dialog'
+
 type Map = {
   id: string;
   name: string;
@@ -27,6 +29,7 @@ export default function Home({ maps }: MapsProps) {
       <main className='flex flex-col h-full w-full py-12 px-5 items-center'>
         <h1 className='text-5xl font-medium'>Valobook:</h1>
         <div className='flex gap-4'>
+          
           <a href={`/maps/create`} className='bg-violet-500 p-2 rounded mt-4'> Register a map </a>
           <a href={`/tatics/create`} className='bg-violet-500 p-2 rounded mt-4'> Register a tatic </a>
         </div>
